@@ -84,14 +84,14 @@ def anime_por_formato(request):
 
     if request.method == 'POST':
         selected_formato = request.POST.get('formato')
-        animes_formato = Anime.objects.filter(formato__contains=selected_formato, numEpisodios__gt=5).order_by('numEpisodios')
+        animes_formato = Anime.objects.filter(formato__contains=selected_formato, numEpisodios__gt=5).order_by('-numEpisodios')
         
-        return render(request, 'anime_por_formato.html', {'animes_formato': animes_formato})
+        return render(request, 'anime_por_formato.html', {'animes_formato': animes_formato, 'STATIC_URL':settings.STATIC_URL})
 
-    return render(request, 'anime_por_formato.html', {'generos': generos})
+    return render(request, 'anime_por_formato.html', {'generos': generos,'STATIC_URL':settings.STATIC_URL})
 
 
-def recomendar_animes_genero_usuario_RSitems(request):
+def recomendar_animes(request):
     formulario = UsuarioBusquedaForm()
     items = None
 
@@ -115,7 +115,7 @@ def recomendar_animes_genero_usuario_RSitems(request):
 
             items = animes_filtrados
 
-    return render(request, 'recomendar_animes_usuarios.html', {'formulario': formulario, 'items': items})
+    return render(request, 'recomendar_animes_usuarios.html', {'formulario': formulario, 'items': items, 'STATIC_URL':settings.STATIC_URL})
 
 def index(request):
     return render(request, 'index.html',{'STATIC_URL':settings.STATIC_URL})
