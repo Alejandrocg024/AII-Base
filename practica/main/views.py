@@ -11,6 +11,12 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from gevent.libev.corecext import NONE
 
+'''
+a) (2.25 puntos) CARGAR LA BASE DE DATOS. Muestre un formulario de confirmación.
+Si se acepta, borrar la base de datos y volverla a crear con los datos del dataset. Después
+MOSTRAR INFORMACIÓN DE LOS REGISTROS ALMACENADOS EN CADA
+TABLA que hayáis definido en el modelo.
+'''
 def cargar(request):
     if request.method == 'POST':
         if 'confirmar' in request.POST:
