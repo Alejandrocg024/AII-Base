@@ -1,0 +1,24 @@
+{% extends 'master.html' %}
+
+{% block titulo %} Animes más vistos {% endblock %}	    
+
+{% block contenido %} 
+
+	    {% if items %}
+		    <dl class="uk-description-list-line">
+
+				{% for anime, items in animes %}
+				<h4> Anime: {{anime.titulo}}:</h4>
+
+					{% for anime, similaridad in items %}
+						<dd>T&iacute;tulo: {{anime.titulo}}  
+							Similaridad:{{similaridad | floatformat:"2"}}</dd>    
+					{% endfor %}
+					
+				{% endfor %}
+
+			</dl>
+
+		{% endif %}
+
+{% endblock %}
