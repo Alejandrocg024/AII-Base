@@ -1,14 +1,11 @@
 #encoding:utf-8
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, redirect
 from django.http.response import HttpResponseRedirect
 from django.conf import settings
-from main.recommendations import  transformPrefs, calculateSimilarItems, getRecommendations, getRecommendedItems, topMatches
+from main.recommendations import  transformPrefs, calculateSimilarItems, getRecommendedItems, topMatches
 import shelve
 from main.models import Anime, Puntuacion
 from main.populateDB import populate
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.decorators import login_required
 from main.forms import UsuarioBusquedaForm
 from django.db.models import Count
 '''
