@@ -1,5 +1,4 @@
 #encoding:utf-8
-from main.models import User, Puntuacion, Pelicula
 from django.shortcuts import render, get_object_or_404
 from django.http.response import HttpResponseRedirect
 from django.conf import settings
