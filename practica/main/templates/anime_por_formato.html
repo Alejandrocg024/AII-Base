@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Animes por Formato</title>
+</head>
+<body>
+    <h2>Selecciona un formato:</h2>
+    <form method="post" action="{% url 'anime_por_formato' %}">
+        {% csrf_token %}
+        <select name="formato">
+            {% for formato in generos %}
+                <option value="{{ formato }}">{{ formato }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Mostrar Animes</button>
+    </form>
+
+    {% if animes_formato %}
+        <h2>Animes de {{ selected_formato }} con más de 5 episodios:</h2>
+        <ul>
+            {% for anime in animes_formato %}
+                <li>{{ anime.titulo }} - {{ anime.generos }} - {{ anime.numEpisodios }} episodios</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>

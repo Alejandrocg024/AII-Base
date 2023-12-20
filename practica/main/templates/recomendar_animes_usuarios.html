@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Recomendar Animes</title>
+</head>
+<body>
+    <h2>Recomendar Animes</h2>
+    <form method="post" action="{% url 'recomendar_animes_genero_usuario_RSitems' %}">
+        {% csrf_token %}
+        {{ formulario }}
+        <button type="submit">Recomendar Animes</button>
+    </form>
+
+    {% if items %}
+        <h2>Recomendaciones de Animes:</h2>
+        <ul>
+            {% for anime, puntuacion in items %}
+                <li>{{ anime.titulo }} - {{ anime.generos }} - {{ anime.formato }} - Puntuación propuesta: {{ puntuacion }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>

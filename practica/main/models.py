@@ -32,7 +32,7 @@ class Puntuacion(models.Model):
     puntuacion = models.IntegerField(verbose_name='Puntuación',validators=[MinValueValidator(1), MaxValueValidator(10)])
 
     def __str__(self):
-        return self.titulo
+        return self.puntuacion
     
     class Meta:
         ordering = ('animeId', 'puntuacion', )
