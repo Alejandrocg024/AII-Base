@@ -85,7 +85,7 @@ def anime_por_formato(request):
         selected_formato = request.POST.get('formato')
         animes_formato = Anime.objects.filter(formato__contains=selected_formato, numEpisodios__gt=5).order_by('-numEpisodios')
         
-        return render(request, 'anime_por_formato.html', {'animes_formato': animes_formato, 'STATIC_URL':settings.STATIC_URL})
+        return render(request, 'anime_por_formato.html', {'generos': generos, 'animes_formato': animes_formato, 'selected_formato': selected_formato, 'STATIC_URL':settings.STATIC_URL})
 
     return render(request, 'anime_por_formato.html', {'generos': generos,'STATIC_URL':settings.STATIC_URL})
 
