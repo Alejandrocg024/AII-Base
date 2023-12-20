@@ -4,21 +4,22 @@
 
 {% block contenido %} 
 
-	    {% if items %}
-		    <dl class="uk-description-list-line">
+		<dl class="uk-description-list-line">
 
-				{% for anime, items in animes %}
-				<h4> Anime: {{anime.titulo}}:</h4>
-
-					{% for anime, similaridad in items %}
-						<dd>T&iacute;tulo: {{anime.titulo}}  
-							Similaridad:{{similaridad | floatformat:"2"}}</dd>    
-					{% endfor %}
+			{% if animes %}
+				{% for anime, datos in animes.items %}
+						<h4><strong>T&iacute;tulo: </strong> {{anime.titulo}} - <strong>Cantidad de opiniones:</strong> {{datos.num}}</h4>
 					
+					<dl class="uk-description-list-line">
+						{% for anime, similaridad in datos.items %}
+			    			<dd><strong>T&iacute;tulo:</strong> {{anime.titulo}} - <strong>Similaridad: </strong> {{similaridad | floatformat:"2"}}</dd>    
+						{% endfor %}
+
+					</dl>
 				{% endfor %}
 
-			</dl>
+			{% endif %}
 
-		{% endif %}
+		</dl>
 
 {% endblock %}

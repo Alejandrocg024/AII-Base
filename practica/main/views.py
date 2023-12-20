@@ -47,24 +47,26 @@ def loadRS(request):
 
 def animes_mas_vistos(request):
     animes_mas_vistos = Anime.objects.annotate(num_puntuaciones=Count('puntuacion')).order_by('-num_puntuaciones')[:3]
-    print(animes_mas_vistos)
-    animes_final = {}
+    animes = {}
+    datos_anime = {}
     for anime in animes_mas_vistos:
         idAnime = anime.animeId
+        num_puntuacion = Puntuacion.objects.filter(animeId=idAnime).count()
+        datos_anime['num'] = num_puntuacion
+
         shelf = shelve.open("dataRS.dat")
         ItemsPrefs = shelf['ItemsPrefs']
         shelf.close()
         parecidas = topMatches(ItemsPrefs, int(idAnime),n=3)
-        print(parecidas)
-        animes = []
+        animes_parecidos = []
         similaridad = []
         for re in parecidas:
-            animes.append(Anime.objects.get(pk=re[1]))
+            animes_parecidos.append(Anime.objects.get(pk=re[1]))
             similaridad.append(re[0])
-        items= zip(animes,similaridad)
-        animes_final[anime] = items
+        datos_anime['items'] = zip(animes_parecidos,similaridad)
+        animes[anime] = datos_anime
     
-    return render(request, 'animes_mas_vistos.html', {'animes': animes_final, 'STATIC_URL':settings.STATIC_URL})
+    return render(request, 'animes_mas_vistos.html', {'animes': animes, 'STATIC_URL':settings.STATIC_URL})
 
 
 def anime_por_formato(request):
@@ -83,7 +85,7 @@ def anime_por_formato(request):
         selected_formato = request.POST.get('formato')
         animes_formato = Anime.objects.filter(formato__contains=selected_formato, numEpisodios__gt=5).order_by('-numEpisodios')
         
-        return render(request, 'anime_por_formato.html', {'generos': generos, 'animes_formato': animes_formato, 'selected_formato': selected_formato, 'STATIC_URL':settings.STATIC_URL})
+        return render(request, 'anime_por_formato.html', {'animes_formato': animes_formato, 'STATIC_URL':settings.STATIC_URL})
 
     return render(request, 'anime_por_formato.html', {'generos': generos,'STATIC_URL':settings.STATIC_URL})
 
