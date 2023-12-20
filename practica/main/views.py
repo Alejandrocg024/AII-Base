@@ -1,14 +1,5 @@
 #encoding:utf-8
-from main.models import Usuario, Puntuacion, Pelicula
-from main.populateDB import populate
-from main.forms import  UsuarioBusquedaForm, PeliculaBusquedaForm
-from django.shortcuts import render, get_object_or_404
-from django.http.response import HttpResponseRedirect
-from django.conf import settings
-#encoding:utf-8
-from main.models import Usuario, Puntuacion, Pelicula
-from main.populateDB import populate
-from main.forms import  UsuarioBusquedaForm, PeliculaBusquedaForm
+from main.models import User, Puntuacion, Pelicula
 from django.shortcuts import render, get_object_or_404
 from django.http.response import HttpResponseRedirect
 from django.conf import settings
@@ -62,7 +53,7 @@ def recomendar_peliculas_usuario_RSusuario(request):
         
         if formulario.is_valid():
             idUsuario=formulario.cleaned_data['idUsuario']
-            usuario = get_object_or_404(Usuario, pk=idUsuario)
+            usuario = get_object_or_404(User, pk=idUsuario)
             shelf = shelve.open("dataRS.dat")
             Prefs = shelf['Prefs']
             shelf.close()
@@ -90,7 +81,7 @@ def recomendar_peliculas_usuario_RSitems(request):
         
         if formulario.is_valid():
             idUsuario=formulario.cleaned_data['idUsuario']
-            usuario = get_object_or_404(Usuario, pk=idUsuario)
+            usuario = get_object_or_404(User, pk=idUsuario)
             shelf = shelve.open("dataRS.dat")
             Prefs = shelf['Prefs']
             SimItems = shelf['SimItems']
@@ -126,7 +117,7 @@ def recomendar_usuarios_pelicula(request):
             usuarios = []
             puntuaciones = []
             for re in recomendadas:
-                usuarios.append(Usuario.objects.get(pk=re[1]))
+                usuarios.append(User.objects.get(pk=re[1]))
                 puntuaciones.append(re[0])
             items= zip(usuarios,puntuaciones)
             
@@ -170,7 +161,7 @@ def mostrar_puntuaciones_usuario(request):
         
         if formulario.is_valid():
             idusuario = formulario.cleaned_data['idUsuario']
-            puntuaciones = Puntuacion.objects.filter(idUsuario = Usuario.objects.get(pk=idusuario))
+            puntuaciones = Puntuacion.objects.filter(idUsuario = User.objects.get(pk=idusuario))
             
     return render(request, 'puntuaciones_usuario.html', {'formulario':formulario, 'puntuaciones':puntuaciones, 'idusuario':idusuario, 'STATIC_URL':settings.STATIC_URL})
 
