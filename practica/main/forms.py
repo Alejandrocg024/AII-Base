@@ -8,7 +8,6 @@ class UsuarioBusquedaForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Recuperar la lista de géneros y configurar las opciones del campo 'genero'
         generos = Anime.objects.values_list('generos', flat=True).distinct()
         generos_separados = set()
         for g in generos:

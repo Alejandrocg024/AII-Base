@@ -106,13 +106,20 @@ def recomendar_animes(request):
 
             rankings = getRecommendedItems(Prefs, SimItems, int(idUsuario))
 
-            animes_recomendados = [(Anime.objects.get(pk=re[1]), re[0]) for re in rankings if genero in Anime.objects.get(pk=re[1]).generos]
+            animes_recomendados = [(anime_id, puntuacion) for anime_id, puntuacion in rankings if genero in Anime.objects.filter(pk=anime_id).values_list('generos', flat=True)]
 
-            animes_filtrados = sorted(animes_recomendados, key=lambda x: x[1], reverse=True)[:2]
+            animes_filtrados = []
+            for anime_id, puntuacion in sorted(animes_recomendados, key=lambda x: x[1], reverse=True)[:2]:
+                try:
+                    anime = Anime.objects.get(pk=anime_id)
+                    animes_filtrados.append((anime, puntuacion))
+                except Anime.DoesNotExist:
+                    # Manejar el caso donde el anime no existe en la base de datos
+                    pass
 
             items = animes_filtrados
 
-    return render(request, 'recomendar_animes_usuarios.html', {'formulario': formulario, 'items': items, 'STATIC_URL':settings.STATIC_URL})
+    return render(request, 'recomendar_animes.html', {'formulario': formulario, 'items': items, 'STATIC_URL':settings.STATIC_URL})
 
 def index(request):
     return render(request, 'index.html',{'STATIC_URL':settings.STATIC_URL})
