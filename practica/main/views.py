@@ -10,7 +10,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from main.forms import UsuarioBusquedaForm
-
+from django.db.models import Count
 '''
 a) (2.25 puntos) CARGAR LA BASE DE DATOS. Muestre un formulario de confirmación.
 Si se acepta, borrar la base de datos y volverla a crear con los datos del dataset. Después
@@ -25,11 +25,6 @@ def cargar(request):
 
     return render(request, 'populate.html',{'STATIC_URL':settings.STATIC_URL})
 
-'''
-d) (1.75 puntos) ANIMES MÁS VISTOS. Muestre los tres animes con más puntuaciones
-(Título y número de puntuaciones). Para cada uno de ellos mostrar también los dos animes
-que más se le parecen (Título y similitud). 
-'''
 
 def loadDict():
     Prefs={}   # matriz de usuarios y puntuaciones a cada a items
@@ -51,14 +46,16 @@ def loadRS(request):
     return HttpResponseRedirect('/index.html')
 
 def animes_mas_vistos(request):
-    animes_mas_vistos = get_list_or_404 = (Anime.objects.all().order_by('-numPuntuaciones'))[:3]
+    animes_mas_vistos = Anime.objects.annotate(num_puntuaciones=Count('puntuacion')).order_by('-num_puntuaciones')[:3]
+    print(animes_mas_vistos)
     animes_final = {}
     for anime in animes_mas_vistos:
-        idAnime = anime.idAnime
+        idAnime = anime.animeId
         shelf = shelve.open("dataRS.dat")
         ItemsPrefs = shelf['ItemsPrefs']
         shelf.close()
         parecidas = topMatches(ItemsPrefs, int(idAnime),n=3)
+        print(parecidas)
         animes = []
         similaridad = []
         for re in parecidas:
