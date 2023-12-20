@@ -17,7 +17,7 @@ def cargar(request):
             populate()
             return redirect('/')
 
-    return render(request, 'populate.html')
+    return render(request, 'populate.html',{'STATIC_URL':settings.STATIC_URL})
 
 '''
 d) (1.75 puntos) ANIMES MÁS VISTOS. Muestre los tres animes con más puntuaciones
