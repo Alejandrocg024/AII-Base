@@ -18,7 +18,7 @@ class Anime(models.Model):
     titulo = models.CharField(max_length=255)
     generos = models.CharField(max_length=255, verbose_name='Generos')
     formato = models.CharField(max_length=50)
-    numEpisodios = models.IntegerField()
+    numEpisodios = models.IntegerField(null=True)
 
     def __str__(self):
         return self.titulo
@@ -27,7 +27,7 @@ class Anime(models.Model):
         ordering =('titulo', )
 
 class Puntuacion(models.Model):
-    idUsuario = models.IntegerField()
+    idUsuario = models.IntegerField(default=0)
     animeId = models.ForeignKey(Anime, on_delete=models.CASCADE, default=0)
     puntuacion = models.IntegerField(verbose_name='Puntuación',validators=[MinValueValidator(1), MaxValueValidator(10)])
 

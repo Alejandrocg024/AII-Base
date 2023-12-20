@@ -1,0 +1,12 @@
+
+
+{% block content %}
+    <h1>Cargar base de datos</h1>
+    <p>¿Desea cargar los datos en la base de datos?</p>
+    <p style="color: red;">¡CUIDADO! ESTO PODRÍA ELIMINAR LOS DATOS YA EXISTENTES EN LA BASE DE DATOS</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" name="confirmar">Confirmar</button>
+        <a href="/">Cancelar</a>
+    </form>
+{% endblock %}
