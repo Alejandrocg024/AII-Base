@@ -25,10 +25,10 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('',views.index),
     path('index.html/', views.index),
-    path('populate/', views.populateDatabase),
+    path('populate/', views.cargar),
     # path('loadRS/', views.loadRS),
     path('admin/',admin.site.urls),
     # path('animes_por_formato/',views.animes_por_formato),
-    # path('animes_mas_vistos/',views.animes_mas_vistos),
+    path('animes_mas_vistos/',views.animes_mas_vistos),
     # path('recomendar_animes/',views.recomendar_animes),
 ]
