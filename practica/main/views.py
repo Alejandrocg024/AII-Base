@@ -48,8 +48,8 @@ def loadRS(request):
 def animes_mas_vistos(request):
     animes_mas_vistos = Anime.objects.annotate(num_puntuaciones=Count('puntuacion')).order_by('-num_puntuaciones')[:3]
     animes = {}
-    datos_anime = {}
     for anime in animes_mas_vistos:
+        datos_anime = {}
         idAnime = anime.animeId
         num_puntuacion = Puntuacion.objects.filter(animeId=idAnime).count()
         datos_anime['num'] = num_puntuacion
